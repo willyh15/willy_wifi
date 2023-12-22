@@ -1,0 +1,83 @@
+<TSharkScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(20)
+
+        MDSpinner:
+            id: interfaces_spinner
+            text: 'Select Interface'
+            values: root.get_interfaces()
+
+        MDLabel:
+            text: 'Monitor Mode:'
+
+        MDSwitch:
+            id: monitor_mode_switch
+
+        MDRaisedButton:
+            id: start_button
+            text: 'Start Capture'
+            on_release: root.start_capture()
+
+        MDTextField:
+            id: packet_display
+            readonly: True
+            multiline: True
+
+        MDTextField:
+            id: filter_input
+            hint_text: 'Enter filter (e.g., tcp port 80)'
+
+        MDRaisedButton:
+            id: apply_filter_button
+            text: 'Apply Filter'
+            on_release: root.apply_filter()
+
+        MDRaisedButton:
+            id: save_button
+            text: 'Save Capture'
+            on_release: root.save_capture()
+
+        MDTextField:
+            id: stats_display
+            readonly: True
+            multiline: True
+
+        MDRaisedButton:
+            id: export_button
+            text: 'Export Capture'
+            on_release: root.export_capture()
+
+        MDRaisedButton:
+            id: import_button
+            text: 'Import Capture'
+            on_release: root.import_capture()
+
+        MDTextField:
+            id: destination_ip_input
+            hint_text: 'Enter Destination IP'
+
+        MDTextField:
+            id: payload_input
+            hint_text: 'Enter Payload Data'
+
+        MDRaisedButton:
+            id: craft_send_button
+            text: 'Craft and Send Packet'
+            on_release: root.craft_and_send_packet()
+
+        # Additions for Language Model Query
+        MDTextField:
+            id: language_model_input
+            hint_text: 'Enter prompt for language model'
+
+        MDRaisedButton:
+            text: 'Query Language Model'
+            on_release: root.query_language_model()
+
+        MDTextField:
+            id: model_advice_display
+            readonly: True
+            multiline: True
+

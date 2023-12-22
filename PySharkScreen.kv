@@ -1,0 +1,24 @@
+<PySharkScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(20)
+
+        MDSpinner:
+            id: interfaces_spinner
+            text: 'Select Interface'
+            values: []
+
+        MDRaisedButton:
+            text: 'Start Capture'
+            on_release: root.start_capture()
+
+        MDTextField:
+            id: packet_display
+            readonly: True
+            multiline: True
+            hint_text: "Packet Display"
+
+        MDRaisedButton:
+            text: 'Perform Deauth Attack'
+            on_release: root.show_deauth_warning()

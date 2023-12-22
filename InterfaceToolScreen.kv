@@ -1,0 +1,58 @@
+#:import MDRaisedButton kivymd.uix.button.MDRaisedButton
+#:import MDLabel kivymd.uix.label.MDLabel
+#:import MDSpinner kivymd.uix.spinner.MDSpinner
+#:import dp kivy.metrics.dp
+
+<InterfaceTool>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(20)
+
+        MDLabel:
+            text: 'Select Interface'
+            halign: 'center'
+            theme_text_color: 'Secondary'
+
+        MDSpinner:
+            id: interfaces_spinner
+            text: 'Select Interface'
+            values: root.get_interfaces()
+
+        MDRaisedButton:
+            text: 'Refresh Interfaces'
+            on_press: root.interfaces_spinner.values = root.get_interfaces()
+
+        MDLabel:
+            text: 'Select SSID'
+            halign: 'center'
+            theme_text_color: 'Secondary'
+
+        MDSpinner:
+            id: ssid_spinner
+            text: 'Select SSID'
+            values: ()
+
+        MDRaisedButton:
+            text: 'Refresh SSIDs'
+            on_press: root.ssid_spinner.values = root.get_available_ssids(root.selected_interface)
+
+        MDRaisedButton:
+            text: 'Start T-Shark Monitoring'
+            on_press: app.root.current = 'tshark'
+
+        MDRaisedButton:
+            text: 'Start Nmap Scanning'
+            on_press: app.root.current = 'nmap'
+
+        MDRaisedButton:
+            text: 'Start Ghost Mode'
+            on_press: app.root.current = 'ghostmode'
+
+        MDRaisedButton:
+            text: 'Start Post Exploitation'
+            on_press: app.root.current = 'postexploitation'
+
+        MDRaisedButton:
+            text: 'Start PyShark Monitoring'
+            on_press: app.root.current = 'pyshark'

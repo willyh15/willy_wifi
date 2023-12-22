@@ -1,0 +1,106 @@
+<NmapScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(20)
+
+        MDToolbar:
+            title: 'Nmap Scanner'
+            elevation: 10
+
+        ScrollView:
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+
+                MDLabel:
+                    text: 'Select Scan Type'
+                    halign: 'center'
+                    size_hint_y: None
+                    height: self.texture_size[1]
+
+                MDSpinner:
+                    id: scan_type_spinner
+                    values: ['Quick Scan', 'Intense Scan', 'Port Scan', 'Custom Scan']
+
+                MDTextField:
+                    id: custom_command_input
+                    hint_text: 'Enter Custom nmap Command Options'
+                    size_hint_y: None
+                    height: dp(30)
+
+                MDRaisedButton:
+                    text: 'Start Scan'
+                    on_release: root.start_scan()
+
+                MDTextField:
+                    id: ip_input
+                    hint_text: 'Enter IP Address or Range'
+                    size_hint_y: None
+                    height: dp(30)
+
+                MDRaisedButton:
+                    text: 'Advanced Target Discovery'
+                    on_release: root.advanced_target_discovery()
+
+                MDRaisedButton:
+                    text: 'Vulnerability Scan'
+                    on_release: root.vulnerability_scan()
+
+                MDRaisedButton:
+                    text: 'Map Network Topology'
+                    on_release: root.map_network_topology()
+
+                MDTextField:
+                    id: openai_prompt_input
+                    hint_text: 'Enter prompt for OpenAI'
+                    size_hint_y: None
+                    height: dp(30)
+
+                MDRaisedButton:
+                    text: 'Get Advice from OpenAI'
+                    on_release: root.send_openai_prompt()
+
+                MDTextField:
+                    id: openai_response_display
+                    readonly: True
+                    multiline: True
+
+                MDTextField:
+                    id: intent_input
+                    hint_text: 'Describe your scanning intent'
+                    size_hint_y: None
+                    height: dp(30)
+
+                MDRaisedButton:
+                    text: 'Generate nmap Command'
+                    on_release: root.generate_nmap_command()
+
+                MDTextField:
+                    id: generated_command_display
+                    readonly: True
+                    multiline: True
+
+                MDRaisedButton:
+                    text: 'Execute Command'
+                    on_release: root.execute_generated_command()
+
+                MDProgressBar:
+                    id: scan_progress_bar
+                    max: 100
+                    value: 0
+
+                MDSpinner:
+                    id: history_spinner
+                    values: ['Select Past Scan']
+
+                Image:
+                    id: network_map_image
+
+        MDLabel:
+            id: scan_results
+            text: ''
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
