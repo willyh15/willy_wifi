@@ -1,12 +1,14 @@
 <NmapScreen>:
     BoxLayout:
         orientation: 'vertical'
-        spacing: dp(10)
-        padding: dp(20)
 
-        MDToolbar:
+        MDTopAppBar:
             title: 'Nmap Scanner'
             elevation: 10
+            left_action_items: [["menu", lambda x: app.callback()]]
+            right_action_items: [["magnify", lambda x: app.search_callback()]]
+            md_bg_color: app.theme_cls.primary_color
+            specific_text_color: 1, 1, 1, 1
 
         ScrollView:
             BoxLayout:

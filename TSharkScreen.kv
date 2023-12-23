@@ -1,83 +1,97 @@
 <TSharkScreen>:
-    BoxLayout:
+    MDBoxLayout:
         orientation: 'vertical'
-        spacing: dp(10)
-        padding: dp(20)
 
-        MDSpinner:
-            id: interfaces_spinner
-            text: 'Select Interface'
-            values: root.get_interfaces()
+        MDTopAppBar:
+            title: 'TShark Monitoring'
+            elevation: 10
+            # Add action items if needed
 
-        MDLabel:
-            text: 'Monitor Mode:'
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                padding: dp(20)
 
-        MDSwitch:
-            id: monitor_mode_switch
+                MDSpinner:
+                    id: interfaces_spinner
+                    text: 'Select Interface'
+                    values: root.get_interfaces()
 
-        MDRaisedButton:
-            id: start_button
-            text: 'Start Capture'
-            on_release: root.start_capture()
+                MDLabel:
+                    text: 'Monitor Mode:'
+                    size_hint_y: None
+                    height: self.texture_size[1]
 
-        MDTextField:
-            id: packet_display
-            readonly: True
-            multiline: True
+                MDSwitch:
+                    id: monitor_mode_switch
 
-        MDTextField:
-            id: filter_input
-            hint_text: 'Enter filter (e.g., tcp port 80)'
+                MDRaisedButton:
+                    id: start_button
+                    text: 'Start Capture'
+                    on_release: root.start_capture()
 
-        MDRaisedButton:
-            id: apply_filter_button
-            text: 'Apply Filter'
-            on_release: root.apply_filter()
+                MDTextField:
+                    id: packet_display
+                    readonly: True
+                    multiline: True
+                    hint_text: 'Packet Display'
 
-        MDRaisedButton:
-            id: save_button
-            text: 'Save Capture'
-            on_release: root.save_capture()
+                MDTextField:
+                    id: filter_input
+                    hint_text: 'Enter filter (e.g., tcp port 80)'
 
-        MDTextField:
-            id: stats_display
-            readonly: True
-            multiline: True
+                MDRaisedButton:
+                    id: apply_filter_button
+                    text: 'Apply Filter'
+                    on_release: root.apply_filter()
 
-        MDRaisedButton:
-            id: export_button
-            text: 'Export Capture'
-            on_release: root.export_capture()
+                MDRaisedButton:
+                    id: save_button
+                    text: 'Save Capture'
+                    on_release: root.save_capture()
 
-        MDRaisedButton:
-            id: import_button
-            text: 'Import Capture'
-            on_release: root.import_capture()
+                MDTextField:
+                    id: stats_display
+                    readonly: True
+                    multiline: True
+                    hint_text: 'Capture Statistics'
 
-        MDTextField:
-            id: destination_ip_input
-            hint_text: 'Enter Destination IP'
+                MDRaisedButton:
+                    id: export_button
+                    text: 'Export Capture'
+                    on_release: root.export_capture()
 
-        MDTextField:
-            id: payload_input
-            hint_text: 'Enter Payload Data'
+                MDRaisedButton:
+                    id: import_button
+                    text: 'Import Capture'
+                    on_release: root.import_capture()
 
-        MDRaisedButton:
-            id: craft_send_button
-            text: 'Craft and Send Packet'
-            on_release: root.craft_and_send_packet()
+                MDTextField:
+                    id: destination_ip_input
+                    hint_text: 'Enter Destination IP'
 
-        # Additions for Language Model Query
-        MDTextField:
-            id: language_model_input
-            hint_text: 'Enter prompt for language model'
+                MDTextField:
+                    id: payload_input
+                    hint_text: 'Enter Payload Data'
 
-        MDRaisedButton:
-            text: 'Query Language Model'
-            on_release: root.query_language_model()
+                MDRaisedButton:
+                    id: craft_send_button
+                    text: 'Craft and Send Packet'
+                    on_release: root.craft_and_send_packet()
 
-        MDTextField:
-            id: model_advice_display
-            readonly: True
-            multiline: True
+                MDTextField:
+                    id: language_model_input
+                    hint_text: 'Enter prompt for language model'
 
+                MDRaisedButton:
+                    text: 'Query Language Model'
+                    on_release: root.query_language_model()
+
+                MDTextField:
+                    id: model_advice_display
+                    readonly: True
+                    multiline: True
+                    hint_text: 'Model Advice'

@@ -1,14 +1,15 @@
 import pyshark
-from scapy.all import RadioTap, Dot11, sendp
+from scapy.layers.dot11 import RadioTap, Dot11  # Correct imports for RadioTap and Dot11
+from scapy.sendrecv import sendp  # Import sendp explicitly
 from kivymd.uix.screen import MDScreen
 from kivy.clock import Clock
+from kivy.uix.label import Label  # Import Label
+from kivy.uix.popup import Popup  # Import Popup
 from utils import get_interfaces
 
 class PySharkScreen(MDScreen):
 
     def on_pre_enter(self):
-        # This method is called when the screen is about to be displayed.
-        # Update the spinner values here.
         self.ids.interfaces_spinner.values = get_interfaces()
 
     def start_capture(self):
@@ -27,7 +28,6 @@ class PySharkScreen(MDScreen):
             info = f"Protocol: {protocol}, Source: {source}, Destination: {destination}\n"
             Clock.schedule_once(lambda dt: self.update_display(info), 0)
         except AttributeError:
-            # Handle non-IP packets
             pass
 
     def update_display(self, info):

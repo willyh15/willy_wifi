@@ -1,24 +1,37 @@
 <PySharkScreen>:
-    BoxLayout:
+    MDBoxLayout:
         orientation: 'vertical'
-        spacing: dp(10)
-        padding: dp(20)
 
-        MDSpinner:
-            id: interfaces_spinner
-            text: 'Select Interface'
-            values: []
+        MDTopAppBar:
+            title: 'PyShark Monitoring'
+            elevation: 10
+            # Add action items if needed
 
-        MDRaisedButton:
-            text: 'Start Capture'
-            on_release: root.start_capture()
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                padding: dp(20)
 
-        MDTextField:
-            id: packet_display
-            readonly: True
-            multiline: True
-            hint_text: "Packet Display"
+                MDSpinner:
+                    id: interfaces_spinner
+                    text: 'Select Interface'
+                    values: []
 
-        MDRaisedButton:
-            text: 'Perform Deauth Attack'
-            on_release: root.show_deauth_warning()
+                MDRaisedButton:
+                    text: 'Start Capture'
+                    on_release: root.start_capture()
+
+                MDTextField:
+                    id: packet_display
+                    readonly: True
+                    multiline: True
+                    hint_text: "Packet Display"
+
+                MDRaisedButton:
+                    text: 'Perform Deauth Attack'
+                    on_release: root.show_deauth_warning()
+
+                # Add any additional buttons and functionality as needed

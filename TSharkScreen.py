@@ -1,4 +1,6 @@
-from scapy.all import Ether, IP, sendp
+from scapy.layers.l2 import Ether  # Import Ether explicitly
+from scapy.layers.inet import IP  # Import IP explicitly
+from scapy.sendrecv import sendp  # Import sendp explicitly
 from kivymd.uix.screen import MDScreen
 from kivy.clock import Clock
 import subprocess

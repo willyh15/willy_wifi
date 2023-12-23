@@ -1,126 +1,117 @@
 <GhostModeScreen>:
-    BoxLayout:
+    MDBoxLayout:
         orientation: 'vertical'
-        spacing: dp(10)
-        padding: dp(20)
 
-        MDLabel:
-            text: 'Ghost Mode Setup'
-            halign: 'center'
-            font_style: 'H5'
-            size_hint_y: None
-            height: self.texture_size[1]
+        MDTopAppBar:
+            title: 'Ghost Mode'
+            elevation: 10
+            # Add left/right action items if needed
 
-        MDSeparator:
-            height: dp(1)
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                padding: dp(20)
 
-        MDRaisedButton:
-            text: 'Connect to Tor'
-            on_release: root.connect_to_tor()
-            md_bg_color: app.theme_cls.primary_color
+                MDLabel:
+                    text: 'Ghost Mode Setup'
+                    halign: 'center'
+                    font_style: 'H5'
+                    size_hint_y: None
+                    height: self.texture_size[1]
 
-        MDLabel:
-            id: tor_status
-            text: 'Tor Status: Disconnected'
-            halign: 'center'
+                MDSeparator:
+                    height: dp(1)
 
-        MDRaisedButton:
-            text: 'Setup ProxyChains'
-            on_release: root.run_via_proxychains('command')  # Replace 'command' with actual
-            md_bg_color: app.theme_cls.primary_color
+                MDRaisedButton:
+                    text: 'Connect to Tor'
+                    on_release: root.connect_to_tor()
+                    md_bg_color: app.theme_cls.primary_color
 
-        MDLabel:
-            id: proxychains_status
-            text: 'ProxyChains Status: Inactive'
-            halign: 'center'
+                MDLabel:
+                    id: tor_status
+                    text: 'Tor Status: Disconnected'
+                    halign: 'center'
 
-        MDRaisedButton:
-            text: 'Establish SSH Tunnel'
-            on_release: root.setup_ssh_tunnel()
-            md_bg_color: app.theme_cls.primary_color
+                MDRaisedButton:
+                    text: 'Setup ProxyChains'
+                    on_release: root.run_via_proxychains('command')
+                    md_bg_color: app.theme_cls.primary_color
 
-        MDLabel:
-            id: ssh_tunnel_status
-            text: 'SSH Tunnel Status: Down'
-            halign: 'center'
+                MDLabel:
+                    id: proxychains_status
+                    text: 'ProxyChains Status: Inactive'
+                    halign: 'center'
 
-        MDRaisedButton:
-            text: 'Start Traffic Padding'
-            on_release: root.start_traffic_padding()
-            md_bg_color: app.theme_cls.primary_color
+                MDRaisedButton:
+                    text: 'Establish SSH Tunnel'
+                    on_release: root.setup_ssh_tunnel()
+                    md_bg_color: app.theme_cls.primary_color
 
-        MDLabel:
-            id: traffic_padding_status
-            text: 'Traffic Padding: Off'
-            halign: 'center'
+                MDLabel:
+                    id: ssh_tunnel_status
+                    text: 'SSH Tunnel Status: Down'
+                    halign: 'center'
 
-        MDRaisedButton:
-            text: 'Enable DNS Privacy'
-            on_release: root.enable_dns_privacy()
-            md_bg_color: app.theme_cls.primary_color
 
-        MDLabel:
-            id: dns_privacy_status
-            text: 'DNS Privacy: Disabled'
-            halign: 'center'
+                MDRaisedButton:
+                    text: 'Change MAC Address'
+                    on_release: root.change_mac_address('interface')  # Replace 'interface' with actual
+                    md_bg_color: app.theme_cls.primary_color
 
-        # New Functionality Buttons and Labels
-        MDRaisedButton:
-            text: 'Change MAC Address'
-            on_release: root.change_mac_address('interface')  # Replace 'interface' with actual
-            md_bg_color: app.theme_cls.primary_color
+                MDRaisedButton:
+                    text: 'Secure File Deletion'
+                    on_release: root.secure_delete_file('file_path')  # Replace 'file_path' with actual
+                    md_bg_color: app.theme_cls.primary_color
 
-        MDRaisedButton:
-            text: 'Secure File Deletion'
-            on_release: root.secure_delete_file('file_path')  # Replace 'file_path' with actual
-            md_bg_color: app.theme_cls.primary_color
+                MDRaisedButton:
+                    text: 'Encrypt File System'
+                    on_release: root.encrypt_file_system('directory')  # Replace 'directory' with actual
+                    md_bg_color: app.theme_cls.primary_color
 
-        MDRaisedButton:
-            text: 'Encrypt File System'
-            on_release: root.encrypt_file_system('directory')  # Replace 'directory' with actual
-            md_bg_color: app.theme_cls.primary_color
+                MDRaisedButton:
+                    text: 'Hide Data in Image'
+                    on_release: root.hide_data_in_image('data', 'cover_image_path', 'output_image_path')  # Replace parameters with actual
+                    md_bg_color: app.theme_cls.primary_color
 
-        MDRaisedButton:
-            text: 'Hide Data in Image'
-            on_release: root.hide_data_in_image('data', 'cover_image_path', 'output_image_path')  # Replace parameters with actual
-            md_bg_color: app.theme_cls.primary_color
+                MDRaisedButton:
+                    text: 'Connect to VPN'
+                    on_release: root.connect_to_vpn('vpn_config')  # Replace 'vpn_config' with actual
+                    md_bg_color: app.theme_cls.primary_color
 
-        MDRaisedButton:
-            text: 'Connect to VPN'
-            on_release: root.connect_to_vpn('vpn_config')  # Replace 'vpn_config' with actual
-            md_bg_color: app.theme_cls.primary_color
+                MDRaisedButton:
+                    text: 'Wipe RAM Data'
+                    on_release: root.wipe_ram_data()
+                    md_bg_color: app.theme_cls.primary_color
 
-        MDRaisedButton:
-            text: 'Wipe RAM Data'
-            on_release: root.wipe_ram_data()
-            md_bg_color: app.theme_cls.primary_color
+                MDRaisedButton:
+                    text: 'Wipe Disk Data'
+                    on_release: root.wipe_disk_data('path')  # Replace 'path' with actual
+                    md_bg_color: app.theme_cls.primary_color
 
-        MDRaisedButton:
-            text: 'Wipe Disk Data'
-            on_release: root.wipe_disk_data('path')  # Replace 'path' with actual
-            md_bg_color: app.theme_cls.primary_color
+                MDRaisedButton:
+                    text: 'Operate from VM/Live OS'
+                    on_release: root.operate_from_vm_or_live_os()
+                    md_bg_color: app.theme_cls.primary_color
 
-        MDRaisedButton:
-            text: 'Operate from VM/Live OS'
-            on_release: root.operate_from_vm_or_live_os()
-            md_bg_color: app.theme_cls.primary_color
+                MDRaisedButton:
+                    text: 'Implement HIP'
+                    on_release: root.implement_hip()
+                    md_bg_color: app.theme_cls.primary_color
 
-        MDRaisedButton:
-            text: 'Implement HIP'
-            on_release: root.implement_hip()
-            md_bg_color: app.theme_cls.primary_color
+                MDRaisedButton:
+                    text: 'Anonymize Keystrokes'
+                    on_release: root.anonymize_keystrokes()
+                    md_bg_color: app.theme_cls.primary_color
 
-        MDRaisedButton:
-            text: 'Anonymize Keystrokes'
-            on_release: root.anonymize_keystrokes()
-            md_bg_color: app.theme_cls.primary_color
+                MDRaisedButton:
+                    text: 'Change Timezone and Locale'
+                    on_release: root.change_timezone_and_locale('timezone', 'locale')  # Replace 'timezone' and 'locale' with actual
+                    md_bg_color: app.theme_cls.primary_color
 
-        MDRaisedButton:
-            text: 'Change Timezone and Locale'
-            on_release: root.change_timezone_and_locale('timezone', 'locale')  # Replace 'timezone' and 'locale' with actual
-            md_bg_color: app.theme_cls.primary_color
-
-        MDRaisedButton:
-            text: 'Integrate Encrypted Messaging'
-            on_release: root.integrate_encrypted_messaging()
-            md_bg_color: app.theme_cls.primary_color
+                MDRaisedButton:
+                    text: 'Integrate Encrypted Messaging'
+                    on_release: root.integrate_encrypted_messaging()
+                    md_bg_color: app.theme_cls.primary_color
