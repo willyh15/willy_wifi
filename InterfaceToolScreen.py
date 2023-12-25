@@ -1,6 +1,10 @@
 from kivymd.uix.screen import MDScreen
 from utils import get_interfaces, get_available_ssids
+from kivy.uix.screenmanager import ScreenManager, Screen
 
+sm = ScreenManager()
+
+sm.current = 'interfacetool'
 class InterfaceToolScreen(MDScreen):
     def __init__(self, **kwargs):
         super(InterfaceToolScreen, self).__init__(**kwargs)

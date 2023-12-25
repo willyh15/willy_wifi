@@ -1,0 +1,59 @@
+ScreenManager:
+    Screen:
+        name: 'home'
+
+        # Setting the background color
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, 1  # Black color
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # Main layout
+        BoxLayout:
+            orientation: 'vertical'
+
+            # App bar
+            MDTopAppBar:
+                title: 'Welcome to MyApp'
+                elevation: 10
+                md_bg_color: app.theme_cls.primary_color
+
+            # Content
+            BoxLayout:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(10)
+
+                # Buttons to navigate to different screens
+                MDRaisedButton:
+                    text: 'Go to Ghost Mode'
+                    on_release: app.root.current = 'ghostmode'
+                    md_bg_color: 1, 0, 0, 1  # Red color
+
+                MDRaisedButton:
+                    text: 'Go to Interface Tool'
+                    on_release: app.root.current = 'interfacetool'
+                    md_bg_color: 0, 1, 0, 1  # Green color
+
+                MDRaisedButton:
+                    text: 'Go to Nmap'
+                    on_release: app.root.current = 'nmap'
+                    md_bg_color: 0, 0, 1, 1  # Blue color
+
+                MDRaisedButton:
+                    text: 'Go to PyShark'
+                    on_release: app.root.current = 'pyshark'
+                    md_bg_color : 0, 1, 1, 1
+
+                MDRaisedButton:
+                    text: 'Go to Tshark'
+                    on_release: app.root.current = 'tshark'
+                    md_bg_color : 1, 0, 1, 1
+
+                MDRaisedButton:
+                    text: 'Go to PostExploitation'
+                    on_release: app.root.current = 'postexploitation'
+                    md_bg_color : 1, 1, 0, 0
+

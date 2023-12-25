@@ -1,4 +1,5 @@
 from kivymd.uix.screen import MDScreen
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 from kivy.clock import Clock
 from scapy.all import *
@@ -16,7 +17,8 @@ import shutil
 import random
 import steganography
 
-
+sm = ScreenManager()
+sm.current = 'ghostmode'
 class GhostModeScreen(MDScreen):
     ssh_tunnel_status = StringProperty('SSH Tunnel Status: Down')
     tor_status = StringProperty('Tor Status: Disconnected')
