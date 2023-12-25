@@ -1,4 +1,6 @@
 # main.py
+import pdb
+pdb.set_trace()
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager
 from GhostModeScreen import GhostModeScreen
