@@ -1,11 +1,15 @@
 from kivymd.uix.screen import MDScreen
+from kivy.properties import StringProperty
 from kivy.clock import Clock
-from scapy.all import sendp, IP, TCP, Padding
+from scapy.all import *
 import time
 import subprocess
+from scapy.layers.inet import IP, TCP
 from stem import Signal
 from stem.control import Controller
 import os
+import re
+import locale
 import pytz
 from datetime import datetime
 import shutil
@@ -14,6 +18,8 @@ import steganography
 
 
 class GhostModeScreen(MDScreen):
+    ssh_tunnel_status = StringProperty('SSH Tunnel Status: Down')
+    tor_status = StringProperty('Tor Status: Disconnected')
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -89,6 +95,10 @@ class GhostModeScreen(MDScreen):
             print("Connected to Tor successfully.")
         except Exception as e:
             print(f"Failed to connect to Tor: {e}")
+            self.tor_status = "Tor Status: Connected"
+        except Exception as e:
+            print(f"Failed to connect to Tor: {e}")
+            self.tor_status = "Tor Status: Error"
 
     # Function to connect with a VPN
     def connect_to_vpn(self, vpn_config):
@@ -126,11 +136,7 @@ class GhostModeScreen(MDScreen):
             self.update_ssh_tunnel_status(False)
 
     def update_ssh_tunnel_status(self, success):
-        if success:
-            self.ids.ssh_tunnel_status.text = 'SSH Tunnel Status: Established'
-        else:
-            self.ids.ssh_tunnel_status.text = 'SSH Tunnel Status: Down'
-
+        self.ssh_tunnel_status = 'SSH Tunnel Status: Established' if success else 'SSH Tunnel Status: Down'
     def start_traffic_padding(self):
         # Logic to start traffic padding
         try:

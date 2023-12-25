@@ -25,6 +25,13 @@
                 MDSeparator:
                     height: dp(1)
 
+                MDTextField:
+                    id: interface_input
+                    hint_text: "Enter Interface Name"
+                    size_hint_x: None
+                    width: 300
+                    pos_hint: {'center_x': 0.5}
+
                 MDRaisedButton:
                     text: 'Connect to Tor'
                     on_release: root.connect_to_tor()
@@ -51,14 +58,13 @@
                     md_bg_color: app.theme_cls.primary_color
 
                 MDLabel:
-                    id: ssh_tunnel_status
-                    text: 'SSH Tunnel Status: Down'
+                    text: root.ssh_tunnel_status
                     halign: 'center'
 
 
                 MDRaisedButton:
                     text: 'Change MAC Address'
-                    on_release: root.change_mac_address('interface')  # Replace 'interface' with actual
+                    on_release: root.change_mac_address(interface_input.text)
                     md_bg_color: app.theme_cls.primary_color
 
                 MDRaisedButton:

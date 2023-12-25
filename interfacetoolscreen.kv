@@ -26,6 +26,7 @@
                     id: interfaces_spinner
                     text: 'Select Interface'
                     values: ()
+                    on_text: root.on_interface_select(self, self.text)
 
                 MDRaisedButton:
                     text: 'Refresh Interfaces'
@@ -42,29 +43,27 @@
                     id: ssid_spinner
                     text: 'Select SSID'
                     values: ()
-                    on_text: root.on_interface_select(self, self.text)
 
                 MDRaisedButton:
                     text: 'Refresh SSIDs'
                     on_press: root.refresh_ssids()
 
-        # Other buttons as before
-        MDRaisedButton:
-            text: 'Start T-Shark Monitoring'
-            on_press: app.root.current = 'tshark'
+                MDRaisedButton:
+                    text: 'Start T-Shark Monitoring'
+                    on_press: root.set_screen('tshark')
 
-        MDRaisedButton:
-            text: 'Start Nmap Scanning'
-            on_press: app.root.current = 'nmap'
+                MDRaisedButton:
+                    text: 'Start Nmap Scanning'
+                    on_press: root.set_screen('nmap')
 
-        MDRaisedButton:
-            text: 'Start Ghost Mode'
-            on_press: app.root.current = 'ghostmode'
+                MDRaisedButton:
+                    text: 'Ghost Mode'
+                    on_press: root.set_screen('ghostmode')
 
-        MDRaisedButton:
-            text: 'Start Post Exploitation'
-            on_press: app.root.current = 'postexploitation'
+                MDRaisedButton:
+                    text: 'Start Post Exploitation'
+                    on_press: root.set_screen('postexploitation')
 
-        MDRaisedButton:
-            text: 'Start PyShark Monitoring'
-            on_press: app.root.current = 'pyshark'
+                MDRaisedButton:
+                    text: 'Start PyShark Monitoring'
+                    on_press: root.set_screen =('pyshark')
