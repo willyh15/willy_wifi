@@ -2,10 +2,10 @@
     MDBoxLayout:
         orientation: 'vertical'
 
-        MDTopAppBar:
+        MDToolbar:
             title: 'Interface Tools'
             elevation: 10
-            # Add left/right action items if needed
+            # Specify action items if needed
 
         ScrollView:
             MDBoxLayout:
@@ -24,13 +24,17 @@
 
                 MDSpinner:
                     id: interfaces_spinner
-                    text: 'Select Interface'
+                    hint_text: 'Select Interface'
                     values: ()
                     on_text: root.on_interface_select(self, self.text)
+                    size_hint_x: None
+                    width: 300
+                    pos_hint: {'center_x': 0.5}
 
                 MDRaisedButton:
                     text: 'Refresh Interfaces'
-                    on_press: root.refresh_interfaces()
+                    on_release: root.refresh_interfaces()
+                    md_bg_color: app.theme_cls.primary_color
 
                 MDLabel:
                     text: 'Select SSID'
@@ -41,29 +45,39 @@
 
                 MDSpinner:
                     id: ssid_spinner
-                    text: 'Select SSID'
+                    hint_text: 'Select SSID'
                     values: ()
+                    size_hint_x: None
+                    width: 300
+                    pos_hint: {'center_x': 0.5}
 
                 MDRaisedButton:
                     text: 'Refresh SSIDs'
-                    on_press: root.refresh_ssids()
+                    on_release: root.refresh_ssids()
+                    md_bg_color: app.theme_cls.primary_color
 
+                # Other buttons for different functionalities
                 MDRaisedButton:
                     text: 'Start T-Shark Monitoring'
-                    on_press: root.set_screen('tshark')
+                    on_release: root.set_screen('tshark')
+                    md_bg_color: app.theme_cls.primary_color
 
                 MDRaisedButton:
                     text: 'Start Nmap Scanning'
-                    on_press: root.set_screen('nmap')
+                    on_release: root.set_screen('nmap')
+                    md_bg_color: app.theme_cls.primary_color
 
                 MDRaisedButton:
                     text: 'Ghost Mode'
-                    on_press: root.set_screen('ghostmode')
+                    on_release: root.set_screen('ghostmode')
+                    md_bg_color: app.theme_cls.primary_color
 
                 MDRaisedButton:
                     text: 'Start Post Exploitation'
-                    on_press: root.set_screen('postexploitation')
+                    on_release: root.set_screen('postexploitation')
+                    md_bg_color: app.theme_cls.primary_color
 
                 MDRaisedButton:
                     text: 'Start PyShark Monitoring'
-                    on_press: root.set_screen =('pyshark')
+                    on_release: root.set_screen('pyshark')
+                    md_bg_color: app.theme_cls.primary_color

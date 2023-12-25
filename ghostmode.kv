@@ -2,10 +2,10 @@
     MDBoxLayout:
         orientation: 'vertical'
 
-        MDTopAppBar:
+        MDToolbar:
             title: 'Ghost Mode'
             elevation: 10
-            # Add left/right action items if needed
+            # Specify action items if needed
 
         ScrollView:
             MDBoxLayout:
@@ -39,7 +39,7 @@
 
                 MDLabel:
                     id: tor_status
-                    text: 'Tor Status: Disconnected'
+                    text: root.tor_status
                     halign: 'center'
 
                 MDRaisedButton:
@@ -49,18 +49,18 @@
 
                 MDLabel:
                     id: proxychains_status
-                    text: 'ProxyChains Status: Inactive'
+                    text: root.proxychains_status
                     halign: 'center'
 
                 MDRaisedButton:
                     text: 'Establish SSH Tunnel'
-                    on_release: root.setup_ssh_tunnel()
+                    on_release: root.setup_ssh_tunnel('user', 'remote_host', 'local_port', 'remote_port')
                     md_bg_color: app.theme_cls.primary_color
 
                 MDLabel:
+                    id: ssh_tunnel_status_label
                     text: root.ssh_tunnel_status
                     halign: 'center'
-
 
                 MDRaisedButton:
                     text: 'Change MAC Address'
