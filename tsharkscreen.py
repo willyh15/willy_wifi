@@ -1,13 +1,45 @@
-from scapy.layers.l2 import Ether  # Import Ether explicitly
-from scapy.layers.inet import IP  # Import IP explicitly
-from scapy.sendrecv import sendp  # Import sendp explicitly
 from kivymd.uix.screen import MDScreen
-from kivy.clock import Clock
+from kivymd.uix.button import MDRaisedButton
+from kivymd.uix.textfield import MDTextField
+from kivymd.uix.switch import MDSwitch
+from kivymd.uix.label import MDLabel
+from kivymd.uix.spinner import MDSpinner
 import subprocess
 from threading import Thread
 from utils import get_interfaces, analyze_packet, send_prompt_to_language_model
+from kivy.clock import Clock
 
 class TSharkScreen(MDScreen):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.interfaces_spinner = MDSpinner()
+        self.filter_input = MDTextField()
+        self.monitor_mode_switch = MDSwitch()
+        self.destination_ip_input = MDTextField()
+        self.payload_input = MDTextField()
+        self.language_model_input = MDTextField()
+        self.packet_display = MDLabel()
+        self.stats_display = MDLabel()
+        self.model_advice_display = MDLabel()
+        self.setup_ui()
+
+    def setup_ui(self):
+        # Set up your UI elements here
+        self.add_widget(self.interfaces_spinner)
+        self.add_widget(self.filter_input)
+        self.add_widget(self.monitor_mode_switch)
+        self.add_widget(MDRaisedButton(text="Start Capture", on_release=self.start_capture))
+        self.add_widget(MDRaisedButton(text="Apply Filter", on_release=self.apply_filter))
+        self.add_widget(MDRaisedButton(text="Save Capture", on_release=self.save_capture))
+        self.add_widget(self.destination_ip_input)
+        self.add_widget(self.payload_input)
+        self.add_widget(MDRaisedButton(text="Send Packet", on_release=self.craft_and_send_packet))
+        self.add_widget(self.language_model_input)
+        self.add_widget(MDRaisedButton(text="Query Language Model", on_release=self.query_language_model))
+        self.add_widget(self.packet_display)
+        self.add_widget(self.stats_display)
+        self.add_widget(self.model_advice_display)
 
     def apply_filter(self, instance):
         self.start_capture(None, self.filter_input.text)
