@@ -1,5 +1,5 @@
 <NmapScreen>:
-    BoxLayout:
+    MDBoxLayout:
         orientation: 'vertical'
 
         MDTopAppBar:
@@ -11,7 +11,7 @@
             specific_text_color: 1, 1, 1, 1
 
         ScrollView:
-            BoxLayout:
+            MDBoxLayout:
                 orientation: 'vertical'
                 size_hint_y: None
                 height: self.minimum_height
@@ -96,13 +96,15 @@
                 MDSpinner:
                     id: history_spinner
                     values: ['Select Past Scan']
+                    on_text: root.on_history_select(self, self.text)
 
                 Image:
                     id: network_map_image
 
-        MDLabel:
-            id: scan_results
-            text: ''
-            halign: 'center'
-            size_hint_y: None
-            height: self.texture_size[1]
+        ScrollView:
+            MDLabel:
+                id: scan_results
+                text: ''
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]

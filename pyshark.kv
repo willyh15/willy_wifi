@@ -5,7 +5,10 @@
         MDTopAppBar:
             title: 'PyShark Monitoring'
             elevation: 10
-            # Add action items if needed
+            left_action_items: [["menu", lambda x: app.callback()]]
+            right_action_items: [["magnify", lambda x: app.search_callback()]]
+            md_bg_color: app.theme_cls.primary_color
+            specific_text_color: 1, 1, 1, 1
 
         ScrollView:
             MDBoxLayout:
@@ -15,23 +18,48 @@
                 spacing: dp(10)
                 padding: dp(20)
 
+                MDLabel:
+                    text: 'Network Interface:'
+                    halign: 'center'
+                    size_hint_y: None
+                    height: self.texture_size[1]
+
                 MDSpinner:
                     id: interfaces_spinner
                     text: 'Select Interface'
-                    values: []
+                    values: []  # This will be populated dynamically
+                    pos_hint: {'center_x': 0.5}
+                    size_hint_x: None
+                    width: 300
 
                 MDRaisedButton:
                     text: 'Start Capture'
                     on_release: root.start_capture()
+                    md_bg_color: app.theme_cls.primary_color
+                    pos_hint: {'center_x': 0.5}
+                    size_hint_x: None
+                    width: 200
+
+                MDLabel:
+                    text: 'Packet Information:'
+                    halign: 'center'
+                    size_hint_y: None
+                    height: self.texture_size[1]
 
                 MDTextField:
                     id: packet_display
                     readonly: True
                     multiline: True
                     hint_text: "Packet Display"
+                    size_hint_y: None
+                    height: dp(200)
 
                 MDRaisedButton:
                     text: 'Perform Deauth Attack'
                     on_release: root.show_deauth_warning()
+                    md_bg_color: app.theme_cls.primary_color
+                    pos_hint: {'center_x': 0.5}
+                    size_hint_x: None
+                    width: 200
 
                 # Add any additional buttons and functionality as needed

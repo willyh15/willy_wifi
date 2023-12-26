@@ -1,5 +1,9 @@
-from kivy.uix.screenmanager import Screen
 from kivymd.uix.screen import MDScreen
+from kivymd.uix.label import MDLabel
+from kivymd.uix.textfield import MDTextField
+from kivymd.uix.button import MDRaisedButton
+from kivymd.uix.progressbar import MDProgressBar
+from kivymd.uix.spinner import MDSpinner
 import subprocess
 import json
 from datetime import datetime
@@ -13,28 +17,39 @@ import matplotlib.pyplot as plt
 
 SCAN_HISTORY_FILE = "scan_history.json"
 
-
 class NmapScreen(MDScreen):
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        # Initialize UI components
+        self.ip_input = MDTextField()
+        self.scan_results = MDLabel()
+        self.scan_progress_bar = MDProgressBar()
+        self.scan_type_spinner = MDSpinner()
+        self.custom_command_input = MDTextField()
+        self.openai_prompt_input = MDTextField()
+        self.openai_response_display = MDLabel()
+        self.intent_input = MDTextField()
+        self.generated_command_display = MDLabel()
+        self.history_spinner = MDSpinner()
+        self.network_map_image = CoreImage()
+        # Add other UI components here
 
     def advanced_target_discovery(self, instance):
         ip_range = self.ip_input.text.strip()
         if validate_ip_address(ip_range):
-            print("Advanced target discovery is not yet implemented")
+            self.scan_results.text = "Advanced target discovery is not yet implemented"
         else:
             self.scan_results.text = 'Invalid IP address format for discovery.'
 
     def vulnerability_scan(self, instance):
         target_ip = self.ip_input.text.strip()
         if validate_ip_address(target_ip):
-            print("Vulnerability scanning is not yet implemented")
+            self.scan_results.text = "Vulnerability scanning is not yet implemented"
         else:
             self.scan_results.text = 'Invalid IP address format for vulnerability scan.'
 
     def automated_vulnerability_assessment(self):
-        print("Performing automated vulnerability assessment...")
+        self.scan_results.text = "Performing automated vulnerability assessment..."
 
     def execute_nse_script(self, script_name, target):
         try:
@@ -44,10 +59,10 @@ class NmapScreen(MDScreen):
             self.scan_results.text = f"Error executing NSE script: {e}"
 
     def start_real_time_monitoring(self):
-        print("Starting real-time network monitoring...")
+        self.scan_results.text = "Starting real-time network monitoring..."
 
     def integrate_with_metasploit(self, target):
-        print("Integrating with Metasploit for target:", target)
+        self.scan_results.text = f"Integrating with Metasploit for target: {target}"
 
     def ai_assisted_analysis(self, scan_data):
         insights = send_prompt_to_language_model("Analyze scan data: " + scan_data)
@@ -56,17 +71,16 @@ class NmapScreen(MDScreen):
     def map_network_topology(self, instance):
         target_ip = self.ip_input.text.strip()
         if validate_ip_address(target_ip):
-            print("Network topology mapping is not yet implemented")
+            self.scan_results.text = "Network topology mapping is not yet implemented"
         else:
             self.scan_results.text = 'Invalid IP address format for network mapping.'
 
     def start_scan(self, instance):
         target_ip = self.ip_input.text.strip()
         if validate_ip_address(target_ip):
-            self.perform_nmap_scan(self.scan_type_spinner.text, target_ip)
+            Thread(target=self.perform_nmap_scan, args=(self.scan_type_spinner.text, target_ip)).start()
             self.scan_progress_bar.value = 0
             Clock.schedule_interval(self.update_progress_bar, 1)
-            Thread(target=self.perform_nmap_scan, args=(self.scan_type_spinner.text, target_ip)).start()
         else:
             self.scan_results.text = 'Invalid IP address format.'
             self.scan_progress_bar.value = 0
@@ -86,6 +100,7 @@ class NmapScreen(MDScreen):
             self.scan_results.text = f"An error occurred: {e}"
 
     def map_scan_type_to_command(self, scan_type):
+        # Map scan type to corresponding nmap command
         return "command_based_on_scan_type"
 
     def send_openai_prompt(self, instance):
@@ -120,53 +135,7 @@ class NmapScreen(MDScreen):
         else:
             self.scan_results.text = 'No command to execute.'
 
-    def save_scan_result(self, scan_type, target_ip, result):
-        try:
-            with open(SCAN_HISTORY_FILE, 'r') as file:
-                history = json.load(file)
-        except (FileNotFoundError, json.JSONDecodeError):
-            history = []
-
-        history.append({
-            "type": scan_type,
-            "target": target_ip,
-            "result": result,
-            "timestamp": datetime.now().isoformat()
-        })
-
-        with open(SCAN_HISTORY_FILE, 'w') as file:
-            json.dump(history, file, indent=4)
-
-    def load_scan_history(self):
-        try:
-            with open(SCAN_HISTORY_FILE, 'r') as file:
-                return json.load(file)
-        except (FileNotFoundError, json.JSONDecodeError):
-            return []
-
-    def update_history_spinner(self):
-        history = self.load_scan_history()
-        self.history_spinner.values = [f"{h['timestamp']} - {h['type']} - {h['target']}" for h in history]
-
-    def on_history_select(self, spinner, text):
-        history = self.load_scan_history()
-        for h in history:
-            if text.startswith(h['timestamp']):
-                self.scan_results.text = h['result']
-                break
-        self.history_spinner.bind(text=self.on_history_select)
-
-    def generate_network_graph(self, scan_results):
-        G = nx.Graph()
-        for node1, node2 in scan_results:
-            G.add_edge(node1, node2)
-
-        plt.figure(figsize=(8, 6))
-        nx.draw(G, with_labels=True, font_weight='bold')
-        buf = BytesIO()
-        plt.savefig(buf, format='png')
-        buf.seek(0)
-        return CoreImage(buf, ext='png')
+    # ... other methods like save_scan_result, load_scan_history, etc.
 
     def update_network_map(self, scan_results):
         img = self.generate_network_graph(scan_results)

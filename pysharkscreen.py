@@ -1,16 +1,25 @@
 import pyshark
-from scapy.layers.dot11 import RadioTap, Dot11  # Correct imports for RadioTap and Dot11
-from scapy.sendrecv import sendp  # Import sendp explicitly
+from scapy.layers.dot11 import RadioTap, Dot11
+from scapy.sendrecv import sendp
 from kivymd.uix.screen import MDScreen
 from kivy.clock import Clock
-from kivy.uix.label import Label  # Import Label
-from kivy.uix.popup import Popup  # Import Popup
+from kivymd.uix.button import MDRaisedButton
+from kivymd.uix.label import MDLabel
+from kivymd.uix.spinner import MDSpinner
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.textfield import MDTextField
 from utils import get_interfaces
 
 class PySharkScreen(MDScreen):
 
     def on_pre_enter(self):
-        self.ids.interfaces_spinner.values = get_interfaces()
+        # Populate the interface spinner
+        interface_spinner = MDSpinner(
+            text='Select Interface',
+            values=get_interfaces(),
+            pos_hint={'center_x': 0.5, 'center_y': 0.6}
+        )
+        self.add_widget(interface_spinner)
 
     def start_capture(self):
         interface = self.ids.interfaces_spinner.text
@@ -31,12 +40,19 @@ class PySharkScreen(MDScreen):
             pass
 
     def update_display(self, info):
-        self.ids.packet_display.text += info
+        packet_display_label = MDLabel(
+            text=info,
+            halign='center'
+        )
+        self.add_widget(packet_display_label)
 
-    def show_deauth_warning(self, instance):
-        popup_content = Label(text="Deauthentication attack is a sensitive operation. Use responsibly!")
-        popup = Popup(title="Warning", content=popup_content, size_hint=(None, None), size=(400, 200))
-        popup.open()
+    def show_deauth_warning(self):
+        dialog = MDDialog(
+            title='Warning',
+            text='Deauthentication attack is a sensitive operation. Use responsibly!',
+            size_hint=(0.8, 0.4)
+        )
+        dialog.open()
 
     def deauth_attack(self, target_mac, source_mac):
         packet = RadioTap() / Dot11(type=0, subtype=12, addr1=target_mac, addr2=source_mac, addr3=source_mac)
