@@ -1,7 +1,7 @@
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.textfield import MDTextField
-from kivymd.uix.switch import MDSwitch
+from kivymd.uix.selectioncontrol import MDSwitch
 from kivymd.uix.label import MDLabel
 from kivymd.uix.spinner import MDSpinner
 import subprocess
