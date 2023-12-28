@@ -11,10 +11,10 @@ from postexploitationscreen import PostExploitationScreen
 
 class MainApp(MDApp):
     def build(self):
-        # Create a ScreenManager
-        sm = ScreenManager()
+        # Use MDScreenManager instead of ScreenManager
+        sm = MDScreenManager()
 
-        # Add your screens
+        # Add your screens, ensure these are MDScreen or its subclasses
         sm.add_widget(InterfaceToolScreen(name='interfacetool'))
         sm.add_widget(PySharkScreen(name='pyshark'))
         sm.add_widget(TSharkScreen(name='tshark'))
