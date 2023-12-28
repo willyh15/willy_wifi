@@ -1,7 +1,6 @@
-from kivy.app import App
-from kivy.uix.screenmanager import ScreenManager
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
+from kivymd.uix.screenmanager import MDScreenManager
 
 # Import your screen classes
 from interfacetoolscreen import InterfaceToolScreen
