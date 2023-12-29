@@ -3,10 +3,10 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.screenmanager import MDScreenManager
 from kivy.lang import Builder
 Builder.load_file('interfacetool.kv')
-Builder.load_file('pysharkscreen.kv')
-Builder.load_file('tsharkscreen.kv')
-Builder.load_file('ghostmodescreen.kv')
-Builder.load_file('postexploitationscreen.kv')
+Builder.load_file('pyshark.kv')
+Builder.load_file('tshark.kv')
+Builder.load_file('ghostmode.kv')
+Builder.load_file('postexploitation.kv')
 # Import your screen classes
 from interfacetoolscreen import InterfaceToolScreen
 from pysharkscreen import PySharkScreen
