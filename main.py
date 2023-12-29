@@ -1,54 +1,54 @@
+import traceback
 from kivymd.app import MDApp
 from kivymd.uix.screenmanager import MDScreenManager
+from kivy.core.window import Window
+from kivy.config import Config
 from kivy.lang import Builder
-
 from interfacetoolscreen import InterfaceToolScreen
 from pysharkscreen import PySharkScreen
 from tsharkscreen import TSharkScreen
 from ghostmodescreen import GhostModeScreen
 from postexploitationscreen import PostExploitationScreen
 
-from kivy.core.window import Window
-Window.size = (360, 640)
+KV_FILE_SUFFIX = '.kv'
+SCREEN_CONTAINER = {
+    'interface_tool': InterfaceToolScreen,
+    'py_shark': PySharkScreen,
+    't_shark': TSharkScreen,
+    'ghost_mode': GhostModeScreen,
+    'post_exploitation': PostExploitationScreen
+}
 
-from kivy.config import Config
-Config.set('graphics', 'width', '360')
-Config.set('graphics', 'height', '640')
 
 class MainApp(MDApp):
     def __init__(self, **kwargs):
         super(MainApp, self).__init__(**kwargs)
         self.sm = MDScreenManager()
 
-        self.sm.current = 'interfacetool.kv'
-
-
     def build(self):
+        self.configure_window()
         self.load_kv_files()
         self.add_screens()
         return self.sm
 
+    def configure_window(self):
+        Window.size = (360, 640)
+        Config.set('graphics', 'width', '360')
+        Config.set('graphics', 'height', '640')
+
     def load_kv_files(self):
-        kv_files = ['interfacetool.kv', 'pyshark.kv', 'tshark.kv', 'ghostmode.kv', 'postexploitation.kv']
-        for file in kv_files:
+        for screen in SCREEN_CONTAINER.keys():
             try:
-                Builder.load_file(f'{file}.kv')
+                Builder.load_file(f'{screen}{KV_FILE_SUFFIX}')
             except Exception as e:
-                print(f"Error loading {file}.kv : {str(e)}")
+                print(f"Error loading {screen}{KV_FILE_SUFFIX} : {str(e)}, {traceback.format_exc()}")
 
     def add_screens(self):
-        screens = [
-            InterfaceToolScreen(name='interfacetool.kv'),
-            PySharkScreen(name='pyshark.kv'),
-            TSharkScreen(name='tshark.kv'),
-            GhostModeScreen(name='ghostmode.kv'),
-            PostExploitationScreen(name='postexploitation.kv')
-        ]
-        for screen in screens:
+        for screen, screen_class in SCREEN_CONTAINER.items():
             try:
-                self.sm.add_widget(screen)
+                self.sm.add_widget(screen_class(name=f'{screen}{KV_FILE_SUFFIX}'))
             except Exception as e:
-                print(f"Error adding {screen.name} : {str(e)}")
+                print(f"Error adding {screen} : {str(e)}, {traceback.format_exc()}")
 
     def on_start(self):
         # Any additional startup logic if needed
