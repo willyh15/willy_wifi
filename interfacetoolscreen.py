@@ -12,7 +12,7 @@ class InterfaceToolScreen(MDScreen):
         self.selected_interface = None
         self.interface_menu = None
         self.ssid_menu = None
-        self.bind(on_kv_post=self.refresh_data)
+        Clock.schedule_once(lambda dt: self.refresh_interfaces())
 
     def on_enter(self, *args):
         Clock.schedule_once(self.refresh_data, 1)
