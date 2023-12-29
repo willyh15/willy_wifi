@@ -29,7 +29,7 @@ class MainApp(MDApp):
         return self.sm
 
     def load_kv_files(self):
-        kv_files = ['interfacetool', 'pyshark', 'tshark', 'ghostmode', 'postexploitation']
+        kv_files = ['interfacetool.kv', 'pyshark.kv', 'tshark.kv', 'ghostmode.kv', 'postexploitation.kv']
         for file in kv_files:
             try:
                 Builder.load_file(f'{file}.kv')
@@ -38,11 +38,11 @@ class MainApp(MDApp):
 
     def add_screens(self):
         screens = [
-            InterfaceToolScreen(name='interfacetool'),
-            PySharkScreen(name='pyshark'),
-            TSharkScreen(name='tshark'),
-            GhostModeScreen(name='ghostmode'),
-            PostExploitationScreen(name='postexploitation')
+            InterfaceToolScreen(name='interfacetool.kv'),
+            PySharkScreen(name='pyshark.kv'),
+            TSharkScreen(name='tshark.kv'),
+            GhostModeScreen(name='ghostmode.kv'),
+            PostExploitationScreen(name='postexploitation.kv')
         ]
         for screen in screens:
             try:
