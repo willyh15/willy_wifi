@@ -6,23 +6,28 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.spinner import MDSpinner
 import subprocess
 from threading import Thread
+
+from scapy.layers.inet import IP
+from scapy.layers.l2 import Ether
+from scapy.sendrecv import sendp
+
 from utils import get_interfaces, analyze_packet, send_prompt_to_language_model
 from kivy.clock import Clock
+from kivy.properties import ObjectProperty
 
 class TSharkScreen(MDScreen):
+    interfaces_spinner = ObjectProperty(None)
+    filter_input = ObjectProperty(None)
+    monitor_mode_switch = ObjectProperty(None)
+    destination_ip_input = ObjectProperty(None)
+    payload_input = ObjectProperty(None)
+    language_model_input = ObjectProperty(None)
+    packet_display = ObjectProperty(None)
+    stats_display = ObjectProperty(None)
+    model_advice_display = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.interfaces_spinner = MDSpinner()
-        self.filter_input = MDTextField()
-        self.monitor_mode_switch = MDSwitch()
-        self.destination_ip_input = MDTextField()
-        self.payload_input = MDTextField()
-        self.language_model_input = MDTextField()
-        self.packet_display = MDLabel()
-        self.stats_display = MDLabel()
-        self.model_advice_display = MDLabel()
-        self.setup_ui()
 
     def setup_ui(self):
         # Set up your UI elements here
