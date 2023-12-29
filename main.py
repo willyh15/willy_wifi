@@ -1,36 +1,50 @@
 from kivymd.app import MDApp
-from kivymd.uix.screen import MDScreen
 from kivymd.uix.screenmanager import MDScreenManager
 from kivy.lang import Builder
-Builder.load_file('interfacetool.kv')
-Builder.load_file('pyshark.kv')
-Builder.load_file('tshark.kv')
-Builder.load_file('ghostmode.kv')
-Builder.load_file('postexploitation.kv')
-# Import your screen classes
+
 from interfacetoolscreen import InterfaceToolScreen
 from pysharkscreen import PySharkScreen
 from tsharkscreen import TSharkScreen
 from ghostmodescreen import GhostModeScreen
 from postexploitationscreen import PostExploitationScreen
 
+
 class MainApp(MDApp):
+    def __init__(self, **kwargs):
+        super(MainApp, self).__init__(**kwargs)
+        self.sm = MDScreenManager()
+
     def build(self):
-        # Use MDScreenManager instead of ScreenManager
-        sm = MDScreenManager()
+        self.load_kv_files()
+        self.add_screens()
+        return self.sm
 
-        # Add your screens, ensure these are MDScreen or its subclasses
-        sm.add_widget(InterfaceToolScreen(name='interfacetool'))
-        sm.add_widget(PySharkScreen(name='pyshark'))
-        sm.add_widget(TSharkScreen(name='tshark'))
-        sm.add_widget(GhostModeScreen(name='ghostmode'))
-        sm.add_widget(PostExploitationScreen(name='postexploitation'))
+    def load_kv_files(self):
+        kv_files = ['interfacetool', 'pyshark', 'tshark', 'ghostmode', 'postexploitation']
+        for file in kv_files:
+            try:
+                Builder.load_file(f'{file}.kv')
+            except Exception as e:
+                print(f"Error loading {file}.kv : {str(e)}")
 
-        return sm
+    def add_screens(self):
+        screens = [
+            InterfaceToolScreen(name='interfacetool'),
+            PySharkScreen(name='pyshark'),
+            TSharkScreen(name='tshark'),
+            GhostModeScreen(name='ghostmode'),
+            PostExploitationScreen(name='postexploitation')
+        ]
+        for screen in screens:
+            try:
+                self.sm.add_widget(screen)
+            except Exception as e:
+                print(f"Error adding {screen.name} : {str(e)}")
 
     def on_start(self):
         # Any additional startup logic if needed
         pass
+
 
 if __name__ == '__main__':
     MainApp().run()

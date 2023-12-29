@@ -1,13 +1,11 @@
 <InterfaceToolScreen>:
     MDBoxLayout:
         orientation: 'vertical'
-
         MDToolbar:
             title: 'Interface Tools'
             elevation: 10
             md_bg_color: app.theme_cls.primary_color
             specific_text_color: 1, 1, 1, 1
-
         ScrollView:
             MDBoxLayout:
                 orientation: 'vertical'
@@ -15,71 +13,51 @@
                 height: self.minimum_height
                 spacing: dp(10)
                 padding: dp(20)
-
-                MDLabel:
+                CustomLabel:
                     text: 'Select Interface'
-                    halign: 'center'
-                    theme_text_color: 'Secondary'
-                    size_hint_y: None
-                    height: self.texture_size[1]
-
-                MDTextField:
+                CustomTextField:
                     id: interface_input
                     hint_text: 'Select Interface'
                     on_focus: if self.focus: root.show_interface_dropdown()
-                    readonly: True
-                    size_hint_x: None
-                    width: 300
-                    pos_hint: {'center_x': 0.5}
-
-                MDRaisedButton:
+                CustomButton:
                     text: 'Refresh Interfaces'
                     on_release: root.refresh_interfaces()
-                    md_bg_color: app.theme_cls.primary_color
-
-                MDLabel:
+                CustomLabel:
                     text: 'Select SSID'
-                    halign: 'center'
-                    theme_text_color: 'Secondary'
-                    size_hint_y: None
-                    height: self.texture_size[1]
-
-                MDTextField:
+                CustomTextField:
                     id: ssid_input
                     hint_text: 'Select SSID'
                     on_focus: if self.focus: root.show_ssid_dropdown()
-                    readonly: True
-                    size_hint_x: None
-                    width: 300
-                    pos_hint: {'center_x': 0.5}
-
-                MDRaisedButton:
+                CustomButton:
                     text: 'Refresh SSIDs'
                     on_release: root.refresh_ssids()
-                    md_bg_color: app.theme_cls.primary_color
-
-                # Additional buttons for navigation and functionalities
-                MDRaisedButton:
+                CustomButton:
                     text: 'Start T-Shark Monitoring'
                     on_release: root.set_screen('tshark')
-                    md_bg_color: app.theme_cls.primary_color
-
-                MDRaisedButton:
+                CustomButton:
                     text: 'Start Nmap Scanning'
                     on_release: root.set_screen('nmap')
-                    md_bg_color: app.theme_cls.primary_color
-
-                MDRaisedButton:
+                CustomButton:
                     text: 'Ghost Mode'
                     on_release: root.set_screen('ghostmode')
-                    md_bg_color: app.theme_cls.primary_color
-
-                MDRaisedButton:
+                CustomButton:
                     text: 'Start Post Exploitation'
                     on_release: root.set_screen('postexploitation')
-                    md_bg_color: app.theme_cls.primary_color
-
-                MDRaisedButton:
+                CustomButton:
                     text: 'Start PyShark Monitoring'
                     on_release: root.set_screen('pyshark')
-                    md_bg_color: app.theme_cls.primary_color
+
+<CustomButton@MDRaisedButton>:
+    md_bg_color: app.theme_cls.primary_color
+
+<CustomLabel@MDLabel>:
+    halign: 'center'
+    theme_text_color: 'Secondary'
+    size_hint_y: None
+    height: self.texture_size[1]
+
+<CustomTextField@MDTextField>:
+    readonly: True
+    size_hint_x: None
+    width: 300
+    pos_hint: {'center_x': 0.5}

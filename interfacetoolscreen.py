@@ -1,10 +1,8 @@
-from kivymd.uix.screen import MDScreen
-from kivymd.uix.button import MDFlatButton
-from kivymd.uix.label import MDLabel
-from kivymd.uix.menu import MDDropdownMenu
-from utils import get_interfaces, get_available_ssids
-from kivy.metrics import dp
 from kivy.clock import Clock
+from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.screen import MDScreen
+
+from utils import get_available_ssids, get_interfaces
 
 
 class InterfaceToolScreen(MDScreen):
@@ -15,25 +13,27 @@ class InterfaceToolScreen(MDScreen):
         self.ssid_menu = None
 
     def on_enter(self, *args):
-        # Schedule the setup to be done after the first frame is rendered
         Clock.schedule_once(self.refresh_data, 1)
+
     def refresh_data(self, *args):
-        # Refresh interface and SSID dropdowns
         self.refresh_interfaces()
         self.refresh_ssids()
 
-    def refresh_interfaces(self):
-        interfaces = get_interfaces()
-        menu_items = [{"text": iface, "viewclass": "OneLineListItem",
-                       "on_release": lambda x=iface: self.set_interface(x)} for iface in interfaces]
-        self.interface_menu = MDDropdownMenu(
-            caller=self.ids.interface_input,
+    def create_dropdown_menu(self, ref_input, data, selected_callback):
+        menu_items = [{"text": item, "viewclass": "OneLineListItem",
+                       "on_release": lambda x=item: selected_callback(x)} for item in data]
+        return MDDropdownMenu(
+            caller=self.ids[ref_input],
             items=menu_items,
             position="bottom",
             width_mult=4
         )
 
-    def set_interface(self, interface_name):
+    def refresh_interfaces(self):
+        interfaces = get_interfaces()
+        self.interface_menu = self.create_dropdown_menu('interface_input', interfaces, self.set_selected_interface)
+
+    def set_selected_interface(self, interface_name):
         self.ids.interface_input.text = interface_name
         self.selected_interface = interface_name
         self.interface_menu.dismiss()
@@ -42,25 +42,16 @@ class InterfaceToolScreen(MDScreen):
     def refresh_ssids(self):
         if self.selected_interface:
             ssids = get_available_ssids(self.selected_interface)
-            menu_items = [{"text": ssid, "viewclass": "OneLineListItem",
-                           "on_release": lambda x=ssid: self.set_ssid(x)} for ssid in ssids]
-            self.ssid_menu = MDDropdownMenu(
-                caller=self.ids.ssid_input,
-                items=menu_items,
-                position="bottom",
-                width_mult=4
-            )
+            self.ssid_menu = self.create_dropdown_menu('ssid_input', ssids, self.set_selected_ssid)
 
-    def set_ssid(self, ssid_name):
+    def set_selected_ssid(self, ssid_name):
         self.ids.ssid_input.text = ssid_name
         self.ssid_menu.dismiss()
 
     def show_interface_dropdown(self):
-        # Open interface dropdown menu
         if self.interface_menu:
             self.interface_menu.open()
 
     def show_ssid_dropdown(self):
-        # Open SSID dropdown menu
         if self.ssid_menu:
             self.ssid_menu.open()
