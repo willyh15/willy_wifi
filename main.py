@@ -20,7 +20,7 @@ class MainApp(MDApp):
         super(MainApp, self).__init__(**kwargs)
         self.sm = MDScreenManager()
 
-        self.sm.current = 'interfacetool'
+        self.sm.current = 'interfacetool.kv'
 
 
     def build(self):
