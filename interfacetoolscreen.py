@@ -12,13 +12,13 @@ class InterfaceToolScreen(MDScreen):
         self.selected_interface = None
         self.interface_menu = None
         self.ssid_menu = None
+        self.bind(on_kv_post=self.refresh_data)
 
     def on_enter(self, *args):
         Clock.schedule_once(self.refresh_data, 1)
 
-    def refresh_data(self, *args):
+    def refresh_data(self, instance, value):
         self.refresh_interfaces()
-        self.refresh_ssids()
 
     def create_dropdown_menu(self, ref_input, data, selected_callback):
         menu_items = [{"text": item, "viewclass": "OneLineListItem",
