@@ -4,6 +4,8 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.menu import MDDropdownMenu
 from utils import get_interfaces, get_available_ssids
 from kivy.metrics import dp
+from kivy.clock import Clock
+
 
 class InterfaceToolScreen(MDScreen):
     def __init__(self, **kwargs):
@@ -12,10 +14,9 @@ class InterfaceToolScreen(MDScreen):
         self.interface_menu = None
         self.ssid_menu = None
 
-    def on_kv_post(self, base_widget):
-        # Refresh data after the kv rules have been applied
-        self.refresh_data()
-
+    def on_enter(self, *args):
+        # Schedule the setup to be done after the first frame is rendered
+        Clock.schedule_once(self.refresh_data, 1)
     def refresh_data(self, *args):
         # Refresh interface and SSID dropdowns
         self.refresh_interfaces()
