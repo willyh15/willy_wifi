@@ -12,8 +12,8 @@ class InterfaceToolScreen(MDScreen):
         self.interface_menu = None
         self.ssid_menu = None
 
-    def on_enter(self):
-        # Refresh data when the screen is entered
+    def on_kv_post(self, base_widget):
+        # Refresh data after the kv rules have been applied
         self.refresh_data()
 
     def refresh_data(self, *args):
