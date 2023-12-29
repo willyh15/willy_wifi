@@ -17,7 +17,7 @@ class InterfaceToolScreen(MDScreen):
     def on_enter(self, *args):
         Clock.schedule_once(self.refresh_data, 1)
 
-    def refresh_data(self, instance, value):
+    def refresh_data(self, instance, value=None):
         self.refresh_interfaces()
 
     def create_dropdown_menu(self, ref_input, data, selected_callback):
