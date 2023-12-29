@@ -4,11 +4,7 @@ from kivymd.uix.screen import MDScreen
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivy.metrics import dp
-
-
-
 from utils import get_available_ssids, get_interfaces
-
 
 class InterfaceToolScreen(MDScreen):
     def __init__(self, **kwargs):

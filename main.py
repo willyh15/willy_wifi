@@ -8,11 +8,20 @@ from tsharkscreen import TSharkScreen
 from ghostmodescreen import GhostModeScreen
 from postexploitationscreen import PostExploitationScreen
 
+from kivy.core.window import Window
+Window.size = (360, 640)
+
+from kivy.config import Config
+Config.set('graphics', 'width', '360')
+Config.set('graphics', 'height', '640')
 
 class MainApp(MDApp):
     def __init__(self, **kwargs):
         super(MainApp, self).__init__(**kwargs)
         self.sm = MDScreenManager()
+
+        self.sm.current = 'interfacetool'
+
 
     def build(self):
         self.load_kv_files()
