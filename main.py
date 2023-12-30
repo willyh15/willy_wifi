@@ -40,6 +40,8 @@ class MainApp(MDApp):
         for screen in SCREEN_CONTAINER.keys():
             try:
                 Builder.load_file(f'{screen}{KV_FILE_SUFFIX}')
+            except FileNotFoundError:
+                print(f"{screen}{KV_FILE_SUFFIX} not found.")
             except Exception as e:
                 print(f"Error loading {screen}{KV_FILE_SUFFIX} : {str(e)}, {traceback.format_exc()}")
 
@@ -55,5 +57,14 @@ class MainApp(MDApp):
         pass
 
 
+    def on_stop(self):
+        # Any cleanup logic if needed
+        pass
+
 if __name__ == '__main__':
-    MainApp().run()
+    try:
+        MainApp().run()
+    except Exception as e:
+        print(f"Application exited with error: {str(e)}, {traceback.format_exc()}")
+        # Optionally, exit with a non-zero error code
+        # sys.exit(1)
