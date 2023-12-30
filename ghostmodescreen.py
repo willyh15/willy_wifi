@@ -1,3 +1,4 @@
+from kivymd.uix.dialog import MDDialog
 from kivymd.uix.screen import MDScreen
 from kivy.properties import StringProperty
 from kivy.clock import Clock
@@ -7,8 +8,11 @@ import subprocess
 import os
 import re
 import random
+import time
+import locale
 import steganography
-from scapy.all import sendp, IP, TCP, Padding
+import scapy.all
+from scapy.layers.inet import IP, TCP
 from stem import Signal
 from stem.control import Controller
 
@@ -118,10 +122,10 @@ class GhostModeScreen(MDScreen):
 
     def send_padded_traffic(self, target_ip, duration):
         try:
-            packet = IP(dst=target_ip) / TCP() / Padding(load="X" * 1000)
+            packet = IP(dst=target_ip) / TCP() / scapy.all.Padding(load="X" * 1000)
             end_time = time.time() + duration
             while time.time() < end_time:
-                sendp(packet)
+                scapy.all.sendp(packet)
             self.show_dialog(f"Padded traffic sent to {target_ip} for {duration} seconds.")
         except Exception as e:
             self.show_dialog(f"Failed to send padded traffic: {e}")

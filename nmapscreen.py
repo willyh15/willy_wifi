@@ -1,19 +1,14 @@
-from kivymd.uix.screen import MDScreen
-from kivymd.uix.label import MDLabel
-from kivymd.uix.textfield import MDTextField
-from kivymd.uix.button import MDRaisedButton
-from kivymd.uix.progressbar import MDProgressBar
-from kivymd.uix.spinner import MDSpinner
 import subprocess
-import json
-from datetime import datetime
 from threading import Thread
 from kivy.clock import Clock
-from utils import validate_ip_address, send_prompt_to_language_model
-import networkx as nx
-from io import BytesIO
 from kivy.core.image import Image as CoreImage
-import matplotlib.pyplot as plt
+from kivymd.uix.label import MDLabel
+from kivymd.uix.progressbar import MDProgressBar
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.spinner import MDSpinner
+from kivymd.uix.textfield import MDTextField
+
+from utils import validate_ip_address, send_prompt_to_language_model
 
 SCAN_HISTORY_FILE = "scan_history.json"
 
