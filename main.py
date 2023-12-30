@@ -1,70 +1,96 @@
-import traceback
-from kivymd.app import MDApp
-from kivymd.uix.screenmanager import MDScreenManager
-from kivy.core.window import Window
-from kivy.config import Config
+from kivy.clock import Clock
+from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.screen import MDScreen
 from kivy.lang import Builder
-from interfacetoolscreen import InterfaceToolScreen
-from pysharkscreen import PySharkScreen
-from tsharkscreen import TSharkScreen
-from ghostmodescreen import GhostModeScreen
-from postexploitationscreen import PostExploitationScreen
+from kivymd.app import MDApp
+from kivy.metrics import dp
+from utils import get_available_ssids, get_interfaces
 
-KV_FILE_SUFFIX = '.kv'
-SCREEN_CONTAINER = {
-    'interface_tool': InterfaceToolScreen,
-    'py_shark': PySharkScreen,
-    't_shark': TSharkScreen,
-    'ghost_mode': GhostModeScreen,
-    'post_exploitation': PostExploitationScreen
-}
-
-
-class MainApp(MDApp):
+class InterfaceToolScreen(MDScreen):
     def __init__(self, **kwargs):
-        super(MainApp, self).__init__(**kwargs)
-        self.sm = MDScreenManager()
+        super().__init__(**kwargs)
+        self.selected_interface = None
+        self.interface_menu = None
+        self.ssid_menu = None
+        Clock.schedule_once(lambda dt: self.refresh_interfaces())
 
+    def on_enter(self, *args):
+        Clock.schedule_once(self.refresh_data, 1)
+
+    def refresh_data(self, instance, value=None):
+        try:
+            self.refresh_interfaces()
+        except Exception as e:
+            print(f"An error occurred while refreshing the data: {e}")
+
+    def create_dropdown_menu(self, ref_input, data, selected_callback):
+        menu_items = [{"text": item, "viewclass": "OneLineListItem",
+                       "on_release": lambda x=item: selected_callback(x)} for item in data]
+        try:
+            caller_item = self.ids[ref_input]
+        except KeyError as e:
+            print(f"An error occurred accessing id {ref_input}: {e}")
+            return None
+
+        return MDDropdownMenu(
+            caller=caller_item,
+            items=menu_items,
+            position="bottom",
+            width_mult=4
+        )
+
+    def refresh_interfaces(self):
+        try:
+            interfaces = get_interfaces()
+        except Exception as e:
+            print(f"An error occurred while getting interfaces: {e}")
+            return
+
+        self.interface_menu = self.create_dropdown_menu('interface_input', interfaces, self.set_selected_interface)
+
+    def set_selected_interface(self, interface_name):
+        try:
+            self.ids.interface_input.text = interface_name
+        except KeyError as e:
+            print(f"An error occurred accessing id 'interface_input': {e}")
+            return
+
+        self.selected_interface = interface_name
+        self.interface_menu.dismiss()
+        self.refresh_ssids()
+
+    def refresh_ssids(self):
+        if self.selected_interface:
+            try:
+                ssids = get_available_ssids(self.selected_interface)
+            except Exception as e:
+                print(f"An error occurred while getting SSIDs: {e}")
+                return
+
+            self.ssid_menu = self.create_dropdown_menu('ssid_input', ssids, self.set_selected_ssid)
+
+    def set_selected_ssid(self, ssid_name):
+        try:
+            self.ids.ssid_input.text = ssid_name
+        except KeyError as e:
+            print(f"An error occurred accessing id 'ssid_input': {e}")
+            return
+
+        self.ssid_menu.dismiss()
+
+    def show_interface_dropdown(self):
+        if self.interface_menu:
+            self.interface_menu.open()
+
+    def show_ssid_dropdown(self):
+        if self.ssid_menu:
+            self.ssid_menu.open()
+
+# Add your app initialization and run here
+class MyApp(MDApp):
     def build(self):
-        self.configure_window()
-        self.load_kv_files()
-        self.add_screens()
-        return self.sm
-
-    def configure_window(self):
-        Window.size = (360, 640)
-        Config.set('graphics', 'width', '360')
-        Config.set('graphics', 'height', '640')
-
-    def load_kv_files(self):
-        for screen in SCREEN_CONTAINER.keys():
-            try:
-                Builder.load_file(f'{screen}{KV_FILE_SUFFIX}')
-            except FileNotFoundError:
-                print(f"{screen}{KV_FILE_SUFFIX} not found.")
-            except Exception as e:
-                print(f"Error loading {screen}{KV_FILE_SUFFIX} : {str(e)}, {traceback.format_exc()}")
-
-    def add_screens(self):
-        for screen, screen_class in SCREEN_CONTAINER.items():
-            try:
-                self.sm.add_widget(screen_class(name=f'{screen}{KV_FILE_SUFFIX}'))
-            except Exception as e:
-                print(f"Error adding {screen} : {str(e)}, {traceback.format_exc()}")
-
-    def on_start(self):
-        # Any additional startup logic if needed
-        pass
-
-
-    def on_stop(self):
-        # Any cleanup logic if needed
-        pass
+        # Load the KV file here if it's external
+        return InterfaceToolScreen()
 
 if __name__ == '__main__':
-    try:
-        MainApp().run()
-    except Exception as e:
-        print(f"Application exited with error: {str(e)}, {traceback.format_exc()}")
-        # Optionally, exit with a non-zero error code
-        # sys.exit(1)
+    MyApp().run()
