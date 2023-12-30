@@ -1,7 +1,3 @@
-#:import Builder kivy.lang.Builder
-#:import MDApp kivymd.app.MDApp
-#:import dp kivy.metrics.dp
-
 <InterfaceToolScreen>:
     MDBoxLayout:
         orientation: 'vertical'
@@ -17,24 +13,45 @@
                 height: self.minimum_height
                 spacing: dp(10)
                 padding: dp(20)
-                CustomLabel:
+
+                MDLabel:
                     text: 'Select Interface'
-                CustomTextField:
+                    halign: 'center'
+                    theme_text_color: 'Secondary'
+                MDTextField:
                     id: interface_input
                     hint_text: 'Select Interface'
+                    readonly: True
+                    size_hint_x: None
+                    width: 300
+                    pos_hint: {'center_x': 0.5}
                     on_focus: if self.focus: root.show_interface_dropdown()
-                CustomButton:
+
+                MDRaisedButton:
                     text: 'Refresh Interfaces'
+                    md_bg_color: app.theme_cls.primary_color
                     on_release: root.refresh_interfaces()
-                CustomLabel:
+
+                MDLabel:
                     text: 'Select SSID'
-                CustomTextField:
+                    halign: 'center'
+                    theme_text_color: 'Secondary'
+                MDTextField:
                     id: ssid_input
                     hint_text: 'Select SSID'
+                    readonly: True
+                    size_hint_x: None
+                    width: 300
+                    pos_hint: {'center_x': 0.5}
                     on_focus: if self.focus: root.show_ssid_dropdown()
-                CustomButton:
+
+                MDRaisedButton:
                     text: 'Refresh SSIDs'
+                    md_bg_color: app.theme_cls.primary_color
                     on_release: root.refresh_ssids()
+
+                # Add more buttons and functionalities as per your requirements
+
                 CustomButton:
                     text: 'Start T-Shark Monitoring'
                     on_release: root.set_screen('tshark')
