@@ -10,26 +10,8 @@ def validate_ip_address(ip_addr):
 
 
 # Function to list available network interfaces
-def get_interfaces():
-    cmd = ["ip", "link", "show"]
-    result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    if result.returncode != 0:
-        print("Failed to get interfaces:", result.stderr)
-        return []
-    interfaces = [line.split(":")[1].strip() for line in result.stdout.split('\n') if
-                  'state' in line and not 'DOWN' in line]
-    return interfaces
 
-
-# Function to scan for available SSIDs
-def get_available_ssids(interface):
-    try:
-        scan_results = subprocess.check_output(['iwlist', interface, 'scan'], text=True)
-        ssids = re.findall(r'ESSID:"([^"]+)"', scan_results)
-        return list(set(ssids))
-    except subprocess.CalledProcessError as e:
-        print("Error scanning for SSIDs:", e)
-        return []
+# Function to scan for available SSID
 
 
 # Function to analyze live packets
